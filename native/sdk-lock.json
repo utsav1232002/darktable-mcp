@@ -1,0 +1,150 @@
+[
+  {
+    "file": "mingw-w64-ucrt-x86_64-atk-2.62.1-1-any.pkg.tar.zst",
+    "sha256": "697911ada9d2143fcf24599f124fc44dde496f907fc4efc23afb35a4c123a875"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-binutils-2.47-5-any.pkg.tar.zst",
+    "sha256": "5a7d1127df76c2a06e37659cee57b18a3e4a59b2714e71469aa90049831a667d"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-cairo-1.18.6-2-any.pkg.tar.zst",
+    "sha256": "021c0a4d1df463d08d0cac170818a7cbaccaa5b09ac6edc7948e461cb5a46e85"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-crt-14.0.0.r598.ge3d18511f-1-any.pkg.tar.zst",
+    "sha256": "e863d0d1c5cef1269738f23dcc155b9b0d161d198b93d9d5aa481cb3a2f2cf53"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-curl-8.23.0-3-any.pkg.tar.zst",
+    "sha256": "b7fbd278e496ee6e796c632d7a1b895b2bdbbd212970f58a6d3f8bc00d76f29c"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-freetype-2.15.0-1-any.pkg.tar.zst",
+    "sha256": "a9a691f71d1a553099c54ca666e611abfb2b4ff08dae24f2a5af72e22a7e5feb"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-gcc-16.2.0-7-any.pkg.tar.zst",
+    "sha256": "c7c5ac5a7413e9a3b5afa367288568058dcecce8fdd690059c5bbfa07def01b9"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-gdk-pixbuf2-2.44.8-1-any.pkg.tar.zst",
+    "sha256": "aacfe4bdf635b1ad5bd50ffe9b106f9256e5aee567aec37d4fabe142a0353419"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-gettext-runtime-1.0-1-any.pkg.tar.zst",
+    "sha256": "ba693dda4ac375af76ce481ff3a6e7481286546cc7dc6d56c7021dae34084157"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-glib2-2.90.1-1-any.pkg.tar.zst",
+    "sha256": "9a7826349279bcca0c935b01880d812be9de9609aef2205be68fd7a6128c1695"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-gmp-6.3.0-2-any.pkg.tar.zst",
+    "sha256": "e82a75968a556484a50084578238a84eb60fb93e34986fd6695c537975bd39ea"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-gtk3-3.24.52-1-any.pkg.tar.zst",
+    "sha256": "1cdcac269932b5ac613ae6df0c097c8593029ef5d8651e7471ab252922dc8e97"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-harfbuzz-15.2.0-1-any.pkg.tar.zst",
+    "sha256": "29ca84c7445d2a485fe46b3c1bae0b1d26edbcb989da637ed5584b757bc6ab01"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-headers-14.0.0.r598.ge3d18511f-1-any.pkg.tar.zst",
+    "sha256": "b3cec87298555a7c6694bd4d421d586d08a1cb47bc5bc76e79602cbf4421d3c9"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-isl-0.28-1-any.pkg.tar.zst",
+    "sha256": "8594e01a253d5a72646c586cf5a1626c1b1c2be7c30060fe67abd9bebe3fe223"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-json-glib-1.10.8-2-any.pkg.tar.zst",
+    "sha256": "3b07443be79b7be8062f085d4453161fc71441700494a393807f76c0abda2fc6"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-lcms2-2.20-1-any.pkg.tar.zst",
+    "sha256": "4e1d12047e72c63832f2b50c2fc87c7ec9d2e5a8bd40ce6e820ccbeedf2e7b8f"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-libgcc-16.2.0-7-any.pkg.tar.zst",
+    "sha256": "bc0ae31c582e0847964b4c8c4b55bb2404a9b7ddce7ebf0b176b6693b76e0c62"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-libgomp-16.2.0-7-any.pkg.tar.zst",
+    "sha256": "ca3c10421830f19247c701bec9a2ac8f3d6514685c8c9d1733fd5c89fa2da3ef"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-libgphoto2-2.5.34-2-any.pkg.tar.zst",
+    "sha256": "2657f450ba44205df707b216af7128fdf32daa695e0ec66361a16385a95a61f2"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-libiconv-1.19.1-1-any.pkg.tar.zst",
+    "sha256": "8a45dc317a285a036bddd79e01505d67b79e44ff49fc3f6e7177a5ea98d098cf"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-libjpeg-turbo-3.2.1-1-any.pkg.tar.zst",
+    "sha256": "8eed77c1e0d6de7f8822687f7b1dfa32cda09394806ef67b23399e63de1a92a6"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-libpng-1.6.59-2-any.pkg.tar.zst",
+    "sha256": "6cc296f5029220e1a226c4bc50294212b20ab8fcabeb00b5a002667f4a882edc"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-librsvg-2.63.4-1-any.pkg.tar.zst",
+    "sha256": "a47e66bf8df578990ba4421bb7234e525f32739ede1473323425a62066ce7fe8"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-libstdc++-16.2.0-7-any.pkg.tar.zst",
+    "sha256": "4dd4b216b0e92ffa160127dd50620372609e98cb219ff1c5dcb9b3fbfe153253"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-libwinpthread-14.0.0.r598.ge3d18511f-1-any.pkg.tar.zst",
+    "sha256": "c35d6be83d141c8cfbb61f1637dd4b53aac8f5562d766aa26d0741c40bad4e4d"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-lua54-5.4.9-1-any.pkg.tar.zst",
+    "sha256": "6bd95778bcbbc1fddb557695aa2e779c00aab1d28ad09030ace192e48c02602b"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-mpc-1.4.1-1-any.pkg.tar.zst",
+    "sha256": "f06556e811c711ce91609484e31d358e4f495811ba29813bf2284a3b236d82ce"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-mpfr-4.2.2-3-any.pkg.tar.zst",
+    "sha256": "6b70a275d2ec75c70aa50a236c218e6b7ee9a5ab4c6d52cb0b580267b7d200fe"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-opencl-headers-2~2026.05.29-1-any.pkg.tar.zst",
+    "sha256": "f36c5b8467a20682e0ec134093140ef4688830f14d83cd18cd6a2c2bdc5cdabe"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-osm-gps-map-1.2.2-1-any.pkg.tar.zst",
+    "sha256": "cbd49a2ec1365547f8a3b85de72f5b91d0434023acb31260f789fbbffe2139cf"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-pango-1.58.2-1-any.pkg.tar.zst",
+    "sha256": "8d86e4a018ff139b010bf357fa1c9f9030fa32ee195c54ed7e89d8ea701851c8"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-sqlite-3.54.1-2-any.pkg.tar.zst",
+    "sha256": "be8941784d708ddd25b8702b32b194704233edb859ba4e6e6e109a51a3836c10"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-windows-default-manifest-20260815-1-any.pkg.tar.zst",
+    "sha256": "b39039f754a600cc0dec49df7d675a59a3cb2b63691d91b4ae60735ee7075eca"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-winpthreads-14.0.0.r598.ge3d18511f-1-any.pkg.tar.zst",
+    "sha256": "282485a1e453e972b86639cedcf43686e0000dfe5eff0421e47a4405ecdd85ce"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-zlib-1.4-2-any.pkg.tar.zst",
+    "sha256": "172541cf5e2391a402f092104988699b0163129d22be1d6b4b201bfb84af6fcf"
+  },
+  {
+    "file": "mingw-w64-ucrt-x86_64-zstd-1.5.7-2-any.pkg.tar.zst",
+    "sha256": "dbdb8427280046a2b41697780aa4c52983b708082b0da4755951dc3bea96ca89"
+  }
+]

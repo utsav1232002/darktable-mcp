@@ -1,0 +1,9 @@
+{
+  "release": "v1.0.0",
+  "archive": "darktable-mcp-win-x64.zip",
+  "sha256": "f8105a269f23e311fe1836d5c270fe95ed8099775c2887ba8eec1f9df7fcf0b5",
+  "official": "370a33309f5d2693b5ba4dae4243f24b22950ad2143ca4581fb6d9db0e8a8c64",
+  "personal": "ed13d4cff8b4d3645046f785c6e454ae5d1bef561d92f169e7910742fcf7636d",
+  "official_schema": "3d6b2c984447677af790c4bb54c3b4fe55b2d01c743e01123538cdb24c4c5519",
+  "personal_schema": "14c318d46f374119a6257d2a38b7ea38674cea1f3e83614ca91ebdd65ad9f02b"
+}

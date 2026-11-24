@@ -1,0 +1,574 @@
+diff --git a/data/mcp_tools.json b/data/mcp_tools.json
+--- a/data/mcp_tools.json
++++ b/data/mcp_tools.json
+@@ -58,20 +58,161 @@
+         "width": { "description": "bounding box in pixels, not a target size: the image is fitted inside width x height keeping aspect ratio, so the smaller constraint wins. omit or pass 0 to leave a dimension unconstrained, which then limits by the other alone but never enlarges past the image's own size; give both to upscale. with neither given, defaults to 1024x1024", "type": "integer" },
+         "height": { "description": "bounding box in pixels, not a target size: the image is fitted inside width x height keeping aspect ratio, so the smaller constraint wins. omit or pass 0 to leave a dimension unconstrained, which then limits by the other alone but never enlarges past the image's own size; give both to upscale. with neither given, defaults to 1024x1024", "type": "integer" },
+         "stack": {
+-          "description": "edits layered on top of the base state and written to the image's own history, so they persist; run the server with --read-only, or against an in-memory library, to render without committing",
++          "description": "Edits to develop, including native per-module blend controls; use scratch path inputs for preview variants.",
+           "type": "array",
+           "items": {
+             "type": "object",
+             "properties": {
+-              "operation": { "type": "string" },
+-              "before": { "description": "place this module immediately before the named one in the pipeline. relative rather than a raw iop_order, which is an opaque number a caller cannot choose sensibly. read current positions from get_history", "type": "string" },
+-              "after": { "description": "place this module immediately after the named one in the pipeline", "type": "string" },
+-              "params": { "description": "field name -> value, encoded exactly as encode_params does: a number outside the field's introspected min/max is rejected, not clamped", "type": "object" },
+-              "blob_hex": { "type": "string" },
+-              "multi_priority": { "type": "integer" },
+-              "enabled": { "type": "boolean" }
++              "operation": {
++                "type": "string"
++              },
++              "before": {
++                "description": "place this module immediately before the named one in the pipeline. relative rather than a raw iop_order, which is an opaque number a caller cannot choose sensibly. read current positions from get_history",
++                "type": "string"
++              },
++              "after": {
++                "description": "place this module immediately after the named one in the pipeline",
++                "type": "string"
++              },
++              "params": {
++                "description": "field name -> value, encoded exactly as encode_params does: a number outside the field's introspected min/max is rejected, not clamped",
++                "type": "object"
++              },
++              "blob_hex": {
++                "type": "string"
++              },
++              "multi_priority": {
++                "type": "integer"
++              },
++              "enabled": {
++                "type": "boolean"
++              },
++              "blend": {
++                "type": "object",
++                "properties": {
++                  "opacity": {
++                    "type": "number",
++                    "minimum": 0,
++                    "maximum": 100
++                  },
++                  "colorspace": {
++                    "type": "string",
++                    "enum": [
++                      "raw",
++                      "lab",
++                      "display_rgb",
++                      "scene_rgb"
++                    ]
++                  },
++                  "mode": {
++                    "type": "string"
++                  },
++                  "fulcrum_ev": {"type": "number", "minimum": -18, "maximum": 18, "description": "Scene RGB blend fulcrum for add, subtract, multiply, divide or RGB channel modes."},
++                  "reverse": {
++                    "type": "boolean"
++                  },
++                  "mask": {
++                    "type": "object",
++                    "properties": {
++                      "type": {
++                        "type": "string",
++                        "enum": [
++                          "parametric",
++                          "uniform"
++                        ]
++                      },
++                      "combine": {
++                        "type": "string",
++                        "enum": [
++                          "intersection",
++                          "union"
++                        ]
++                      },
++                      "invert": {
++                        "type": "boolean"
++                      },
++                      "channels": {
++                        "type": "object",
++                        "additionalProperties": {
++                          "type": "object",
++                          "properties": {
++                            "thresholds": {
++                              "type": "array",
++                              "items": {
++                                "type": "number",
++                                "minimum": 0,
++                                "maximum": 1
++                              },
++                              "minItems": 4,
++                              "maxItems": 4
++                            },
++                            "invert": {
++                              "type": "boolean"
++                            }
++                          },
++                          "additionalProperties": false,
++                          "required": [
++                            "thresholds"
++                          ]
++                        },
++                        "minProperties": 1
++                      }
++                    },
++                    "additionalProperties": false,
++                    "required": [
++                      "type"
++                    ],
++                    "description": "Explicit replacement. Parametric requires channels. Per-channel thresholds are four ascending normalized native slider coordinates. The union uses maximum, intersection uses minimum. Append _out for output channels."
++                  },
++                  "refinement": {
++                    "type": "object",
++                    "properties": {
++                      "feathering_radius": {
++                        "type": "number",
++                        "minimum": 0,
++                        "maximum": 250
++                      },
++                      "feathering_guide": {
++                        "type": "string",
++                        "enum": [
++                          "input_before_blur",
++                          "output_before_blur",
++                          "input_after_blur",
++                          "output_after_blur"
++                        ]
++                      },
++                      "blur_radius": {
++                        "type": "number",
++                        "minimum": 0,
++                        "maximum": 100
++                      },
++                      "brightness": {
++                        "type": "number",
++                        "minimum": -1,
++                        "maximum": 1
++                      },
++                      "contrast": {
++                        "type": "number",
++                        "minimum": -1,
++                        "maximum": 1
++                      },
++                      "details": {
++                        "type": "number",
++                        "minimum": -1,
++                        "maximum": 1
++                      }
++                    },
++                    "additionalProperties": false
++                  }
++                },
++                "additionalProperties": false,
++                "minProperties": 1,
++                "description": "Edit this native module instance. Query blend_capabilities for available modes and channels. Omitted settings are preserved."
++              }
+             },
+-            "required": ["operation"]
++            "required": [
++              "operation"
++            ]
+           }
+         },
+         "disable_tone_mappers": { "description": "switch off whichever tone mapper darktable auto-applies, as set by plugins/darkroom/workflow, so that a tone mapper you add in the stack owns the tone curve. WARNING: this is written to the image's history and its sidecar like any other edit, so it outlives the request; reset_history undoes it", "type": "boolean" },
+@@ -96,7 +237,164 @@
+         },
+         "width": { "description": "bounding box in pixels, not a target size: the image is fitted inside width x height keeping aspect ratio, so the smaller constraint wins. omit or pass 0 to leave a dimension unconstrained, which then limits by the other alone but never enlarges past the image's own size; give both to upscale. with neither given, defaults to 512x512", "type": "integer" },
+         "height": { "description": "bounding box in pixels, not a target size: the image is fitted inside width x height keeping aspect ratio, so the smaller constraint wins. omit or pass 0 to leave a dimension unconstrained, which then limits by the other alone but never enlarges past the image's own size; give both to upscale. with neither given, defaults to 512x512", "type": "integer" },
+-        "stack": { "description": "edits layered on top of the base state and written to the image's own history, so they persist; run the server with --read-only, or against an in-memory library, to render without committing", "type": "array", "items": { "type": "object" } },
++        "stack": {
++          "description": "Edits to develop, including native per-module blend controls; use scratch path inputs for preview variants.",
++          "type": "array",
++          "items": {
++            "type": "object",
++            "properties": {
++              "operation": {
++                "type": "string"
++              },
++              "before": {
++                "description": "place this module immediately before the named one in the pipeline. relative rather than a raw iop_order, which is an opaque number a caller cannot choose sensibly. read current positions from get_history",
++                "type": "string"
++              },
++              "after": {
++                "description": "place this module immediately after the named one in the pipeline",
++                "type": "string"
++              },
++              "params": {
++                "description": "field name -> value, encoded exactly as encode_params does: a number outside the field's introspected min/max is rejected, not clamped",
++                "type": "object"
++              },
++              "blob_hex": {
++                "type": "string"
++              },
++              "multi_priority": {
++                "type": "integer"
++              },
++              "enabled": {
++                "type": "boolean"
++              },
++              "blend": {
++                "type": "object",
++                "properties": {
++                  "opacity": {
++                    "type": "number",
++                    "minimum": 0,
++                    "maximum": 100
++                  },
++                  "colorspace": {
++                    "type": "string",
++                    "enum": [
++                      "raw",
++                      "lab",
++                      "display_rgb",
++                      "scene_rgb"
++                    ]
++                  },
++                  "mode": {
++                    "type": "string"
++                  },
++                  "fulcrum_ev": {"type": "number", "minimum": -18, "maximum": 18, "description": "Scene RGB blend fulcrum for add, subtract, multiply, divide or RGB channel modes."},
++                  "reverse": {
++                    "type": "boolean"
++                  },
++                  "mask": {
++                    "type": "object",
++                    "properties": {
++                      "type": {
++                        "type": "string",
++                        "enum": [
++                          "parametric",
++                          "uniform"
++                        ]
++                      },
++                      "combine": {
++                        "type": "string",
++                        "enum": [
++                          "intersection",
++                          "union"
++                        ]
++                      },
++                      "invert": {
++                        "type": "boolean"
++                      },
++                      "channels": {
++                        "type": "object",
++                        "additionalProperties": {
++                          "type": "object",
++                          "properties": {
++                            "thresholds": {
++                              "type": "array",
++                              "items": {
++                                "type": "number",
++                                "minimum": 0,
++                                "maximum": 1
++                              },
++                              "minItems": 4,
++                              "maxItems": 4
++                            },
++                            "invert": {
++                              "type": "boolean"
++                            }
++                          },
++                          "additionalProperties": false,
++                          "required": [
++                            "thresholds"
++                          ]
++                        },
++                        "minProperties": 1
++                      }
++                    },
++                    "additionalProperties": false,
++                    "required": [
++                      "type"
++                    ],
++                    "description": "Explicit replacement. Parametric requires channels. Per-channel thresholds are four ascending normalized native slider coordinates. The union uses maximum, intersection uses minimum. Append _out for output channels."
++                  },
++                  "refinement": {
++                    "type": "object",
++                    "properties": {
++                      "feathering_radius": {
++                        "type": "number",
++                        "minimum": 0,
++                        "maximum": 250
++                      },
++                      "feathering_guide": {
++                        "type": "string",
++                        "enum": [
++                          "input_before_blur",
++                          "output_before_blur",
++                          "input_after_blur",
++                          "output_after_blur"
++                        ]
++                      },
++                      "blur_radius": {
++                        "type": "number",
++                        "minimum": 0,
++                        "maximum": 100
++                      },
++                      "brightness": {
++                        "type": "number",
++                        "minimum": -1,
++                        "maximum": 1
++                      },
++                      "contrast": {
++                        "type": "number",
++                        "minimum": -1,
++                        "maximum": 1
++                      },
++                      "details": {
++                        "type": "number",
++                        "minimum": -1,
++                        "maximum": 1
++                      }
++                    },
++                    "additionalProperties": false
++                  }
++                },
++                "additionalProperties": false,
++                "minProperties": 1,
++                "description": "Edit this native module instance. Query blend_capabilities for available modes and channels. Omitted settings are preserved."
++              }
++            },
++            "required": [
++              "operation"
++            ]
++          }
++        },
+         "disable_tone_mappers": { "description": "switch off whichever tone mapper darktable auto-applies, as set by plugins/darkroom/workflow, so that a tone mapper you add in the stack owns the tone curve. WARNING: this is written to the image's history and its sidecar like any other edit, so it outlives the request; reset_history undoes it", "type": "boolean" },
+         "history_end": { "description": "how many entries of the image's existing history to apply, counted from the start; -1 or omitted uses all of it. applied before `stack`, so the two compose: history_end picks the base state and stack adds edits on top of it. WARNING: combined with a stack this rewrites the image's history -- entries past history_end are dropped for good. on its own it changes nothing", "type": "integer" }
+       },
+@@ -295,5 +593,42 @@
+       "required": [],
+       "additionalProperties": false
+     }
++  },
++  {
++    "name": "blend_capabilities",
++    "description": "List native blend support per module and modes and parametric channels by colorspace. An optional operation filters the modules.",
++    "inputSchema": {
++      "type": "object",
++      "properties": {
++        "operation": {
++          "type": "string"
++        }
++      },
++      "additionalProperties": false
++    }
++  },
++  {
++    "name": "get_blend",
++    "description": "Read committed per-instance blend settings and native mask channels. Native groups outside the flat parametric interface are identified by group ID.",
++    "inputSchema": {
++      "type": "object",
++      "properties": {
++        "imgid": {
++          "type": "integer"
++        },
++        "operation": {
++          "type": "string"
++        },
++        "multi_priority": {
++          "type": "integer",
++          "minimum": 0
++        }
++      },
++      "additionalProperties": false,
++      "required": [
++        "imgid",
++        "operation"
++      ]
++    }
+   }
+ ]
+diff --git a/src/mcp/dt_bridge.c b/src/mcp/dt_bridge.c
+--- a/src/mcp/dt_bridge.c
++++ b/src/mcp/dt_bridge.c
+@@ -1009,6 +1009,8 @@
+ }
+ 
+ // apply one stack entry to a module instance in dev and snapshot it to history
++#include "personal_blend.inc"
++
+ static gboolean _apply_entry(dt_develop_t *dev, JsonObject *entry, char **err)
+ {
+   const char *op = json_object_has_member(entry, "operation")
+@@ -1020,10 +1022,32 @@
+                      ? json_object_get_boolean_member(entry, "enabled") : TRUE;
+ 
+   dt_iop_module_t *mod = dt_iop_get_module_by_op_priority(dev->iop, op, multi_priority);
++  if(!mod && multi_priority > 0)
++  {
++    dt_iop_module_t *base = dt_iop_get_module_by_op_priority(dev->iop, op, 0);
++    if(base && !(base->flags() & IOP_FLAGS_ONE_INSTANCE))
++    {
++      int highest = 0;
++      for(GList *it = dev->iop; it; it = it->next)
++      {
++        dt_iop_module_t *other = it->data;
++        if(other->instance == base->instance) highest = MAX(highest, other->multi_priority);
++      }
++      if(multi_priority - 1 == highest)
++        mod = dt_dev_module_duplicate(dev, base);
++    }
++  }
+   if(!mod)
+   {
+     _seterr(err, "module '%s' (priority %d) not found in pipe", op, multi_priority);
+     return FALSE;
++  }
++
++  gboolean forms_changed = FALSE;
++  if(json_object_has_member(entry, "blend"))
++  {
++    JsonObject *blend = pb_obj(entry, "blend", err);
++    if(!blend || !pb_apply(mod, blend, &forms_changed, err)) return FALSE;
+   }
+ 
+   // relative placement: a raw iop_order is an opaque number a caller has no
+@@ -1076,45 +1100,49 @@
+     }
+   }
+ 
+-  size_t size = 0;
+-  uint8_t *blob = NULL;
+-  if(json_object_has_member(entry, "blob_hex"))
+-  {
+-    blob = _hex_to_bytes(json_object_get_string_member(entry, "blob_hex"), &size);
+-    if(!blob) { _seterr(err, "invalid blob_hex for '%s'", op); return FALSE; }
+-  }
+-  else
+-  {
+-    JsonObject *fields = NULL;
+-    if(json_object_has_member(entry, "params"))
+-    {
+-      JsonNode *fn = json_object_get_member(entry, "params");
+-      if(JSON_NODE_HOLDS_OBJECT(fn)) fields = json_node_get_object(fn);
+-    }
+-    if(!mod->so->have_introspection)
+-    {
+-      _seterr(err, "module '%s' has no introspection for 'params'", op);
++  if(json_object_has_member(entry, "params") || json_object_has_member(entry, "blob_hex"))
++  {
++    size_t size = 0;
++    uint8_t *blob = NULL;
++    if(json_object_has_member(entry, "blob_hex"))
++    {
++      blob = _hex_to_bytes(json_object_get_string_member(entry, "blob_hex"), &size);
++      if(!blob) { _seterr(err, "invalid blob_hex for '%s'", op); return FALSE; }
++    }
++    else
++    {
++      JsonObject *fields = NULL;
++      if(json_object_has_member(entry, "params"))
++      {
++        JsonNode *fn = json_object_get_member(entry, "params");
++        if(JSON_NODE_HOLDS_OBJECT(fn)) fields = json_node_get_object(fn);
++      }
++      if(!mod->so->have_introspection)
++      {
++        _seterr(err, "module '%s' has no introspection for 'params'", op);
++        return FALSE;
++      }
++      // the live block, so setting one field layers onto the image's current
++      // values instead of resetting the rest to defaults
++      const void *defaults = (mod->params_size == (int32_t)mod->so->get_introspection()->size)
++        ? mod->params : NULL;
++      blob = _seed_and_apply(mod->so, defaults, fields, &size, err);
++      if(!blob) return FALSE;
++    }
++
++    if(size != (size_t)mod->params_size)
++    {
++      _seterr(err, "blob size %zu != module '%s' params size %d",
++              size, op, mod->params_size);
++      g_free(blob);
+       return FALSE;
+     }
+-    // the live block, so setting one field layers onto the image's current
+-    // values instead of resetting the rest to defaults
+-    const void *defaults = (mod->params_size == (int32_t)mod->so->get_introspection()->size)
+-      ? mod->params : NULL;
+-    blob = _seed_and_apply(mod->so, defaults, fields, &size, err);
+-    if(!blob) return FALSE;
+-  }
+-
+-  if(size != (size_t)mod->params_size)
+-  {
+-    _seterr(err, "blob size %zu != module '%s' params size %d",
+-            size, op, mod->params_size);
++    memcpy(mod->params, blob, size);
+     g_free(blob);
+-    return FALSE;
+-  }
+-  memcpy(mod->params, blob, size);
+-  g_free(blob);
++  }
+   mod->enabled = enabled;
+-  dt_dev_add_history_item_ext(dev, mod, enabled, TRUE);
++  if(forms_changed) dt_dev_add_masks_history_item_ext(dev, mod, enabled, TRUE);
++  else dt_dev_add_history_item_ext(dev, mod, enabled, TRUE);
+   return TRUE;
+ }
+ 
+diff --git a/src/mcp/dt_bridge.h b/src/mcp/dt_bridge.h
+index e1ba66f..37fb7bc 100644
+--- a/src/mcp/dt_bridge.h
++++ b/src/mcp/dt_bridge.h
+@@ -30,6 +30,8 @@
+ 
+ /** JSON array of [{ operation, version, have_introspection, doc_url }] */
+ char *dt_bridge_list_modules_json(void);
++char *dt_bridge_blend_capabilities(const char *op, char **err);
++char *dt_bridge_get_blend_json(int imgid, const char *op, int priority, char **err);
+ 
+ /** JSON description of a module's parameter layout (fields, ranges, doc_url) */
+ char *dt_bridge_module_schema_json(const char *op, char **err);
+diff --git a/src/mcp/mcp_jsonrpc.c b/src/mcp/mcp_jsonrpc.c
+index 12974c1..d2e1521 100644
+--- a/src/mcp/mcp_jsonrpc.c
++++ b/src/mcp/mcp_jsonrpc.c
+@@ -27,7 +27,7 @@
+ #include "win/getdelim.h" // getline() is not declared by MinGW
+ #endif
+ 
+-#define SERVER_NAME "darktable-mcp"
++#define SERVER_NAME "darktable-personal"
+ #define SERVER_VERSION "0.1.0"
+ #define PROTOCOL_VERSION "2025-06-18"
+ 
+diff --git a/src/mcp/mcp_tools.c b/src/mcp/mcp_tools.c
+index 05cfbd9..07c9dd6 100644
+--- a/src/mcp/mcp_tools.c
++++ b/src/mcp/mcp_tools.c
+@@ -254,6 +254,21 @@ static JsonNode *_json_text_or_err(char *json, char *err)
+   return r;
+ }
+ 
++static JsonNode *_tool_blend_capabilities(JsonObject *args)
++{
++  char *err = NULL;
++  char *json = dt_bridge_blend_capabilities(_arg_string(args, "operation"), &err);
++  return _json_text_or_err(json, err);
++}
++
++static JsonNode *_tool_get_blend(JsonObject *args)
++{
++  char *err = NULL;
++  char *json = dt_bridge_get_blend_json(_arg_int(args, "imgid", 0), _arg_string(args, "operation"),
++                                       _arg_int(args, "multi_priority", 0), &err);
++  return _json_text_or_err(json, err);
++}
++
+ static JsonNode *_tool_list_images(JsonObject *args)
+ {
+   char *err = NULL;
+@@ -514,6 +529,8 @@ static const mcp_handler_t _handlers[] = {
+   { "render",           _tool_render },
+   { "image_stats",      _tool_image_stats },
+   { "list_images",      _tool_list_images },
++  { "blend_capabilities", _tool_blend_capabilities },
++  { "get_blend",        _tool_get_blend },
+   { "get_history",      _tool_get_history },
+   { "list_styles",      _tool_list_styles },
+   { "apply_style",      _tool_apply_style },
