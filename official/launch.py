@@ -8,6 +8,10 @@ from pathlib import Path
 import subprocess
 import sys
 
+# The official launcher and personal launcher share the same MCP guidance.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from mcp_lighting import run_mcp
+
 
 def reserve_catalog(host_dir):
     # darktable locks both library.db and data.db. Simultaneous chats each need a profile.
@@ -49,10 +53,12 @@ def main():
             "--tmpdir", scratch.as_posix(),
             "--conf", "plugins/imageio/format/tiff/bpp=16",
         ]
-        return subprocess.run(
-            args, cwd=executable.parent, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr,
-            startupinfo=startup, creationflags=subprocess.CREATE_NO_WINDOW,
-        ).returncode
+        process_options = {
+            "cwd": executable.parent,
+            "startupinfo": startup,
+            "creationflags": subprocess.CREATE_NO_WINDOW,
+        }
+        return run_mcp(args, **process_options)
     finally:
         os.close(fd)
 

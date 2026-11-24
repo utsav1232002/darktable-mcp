@@ -5,6 +5,8 @@ from pathlib import Path
 import subprocess
 import sys
 
+from mcp_lighting import LIGHTING_GUIDANCE
+
 ROOT = Path(__file__).resolve().parent
 
 
@@ -25,7 +27,13 @@ def check(name, launcher, expected):
     tools = replies[2]["result"]["tools"]
     if identity != name or len(tools) != expected:
         raise RuntimeError(f"{name} returned identity {identity} and {len(tools)} tools")
-    print(f"{identity}: connected, {len(tools)} tools")
+    if LIGHTING_GUIDANCE not in replies[1]["result"].get("instructions", ""):
+        raise RuntimeError(f"{name} is missing portrait lighting guidance")
+    descriptions = {tool["name"]: tool.get("description", "") for tool in tools}
+    for tool_name in ("render", "export_images"):
+        if LIGHTING_GUIDANCE not in descriptions.get(tool_name, ""):
+            raise RuntimeError(f"{name} is missing lighting guidance on {tool_name}")
+    print(f"{identity}: connected, {len(tools)} tools, lighting guidance verified")
 
 
 if __name__ == "__main__":

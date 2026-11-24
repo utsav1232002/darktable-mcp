@@ -14,7 +14,7 @@ The servers work with local file paths and render through a pinned Windows build
 1. Install **64-bit Python 3.11 or newer**. Check it with `py -3 --version`. If your Python installation provides `python` instead, substitute that command below. [Python for Windows](https://www.python.org/downloads/windows/)
 2. Get the source using either method.
    - **Git:** `git clone https://github.com/utsav1232002/darktable-mcp.git`, then `cd darktable-mcp`.
-   - **ZIP:** Choose **Code → Download ZIP**, extract it into a permanent folder and open PowerShell in the folder containing `setup.py`. [Download source ZIP](https://github.com/utsav1232002/darktable-mcp/archive/refs/heads/main.zip)
+   - **ZIP:** Choose **Code â†’ Download ZIP**, extract it into a permanent folder and open PowerShell in the folder containing `setup.py`. [Download source ZIP](https://github.com/utsav1232002/darktable-mcp/archive/refs/heads/main.zip)
 3. Run the setup and connection check.
 
 ```powershell
@@ -55,6 +55,8 @@ agy mcp add darktable $pythonExe (Resolve-Path .\official\launch.py).Path antigr
 
 ## Make your first edit
 
+Both launchers publish the same lighting guardrail in the MCP initialization instructions and in the render and export tool descriptions. It directs the assistant to respect the captured light when matching a reference, compare local adjustments against the global grade, and inspect mask falloff and spill before delivery. The assistant performs the visual checks. `check.py` verifies that clients receive the guidance.
+
 > Use darktable-personal on a working copy of my RAW at [full path]. Increase exposure by half a stop in the highlights using a soft luminance mask at 40% opacity. Show me the preview and save the editable XMP and a full-resolution 16-bit TIFF in [output folder].
 
 Give the assistant absolute paths that its local host can access. Importing a working copy and editing it by image ID can write an XMP beside it. Keep accompanying sidecars and mask assets when handing an edit to another host. For concurrent variants, give each session its own working copy.
@@ -76,4 +78,4 @@ py -3 .\launch.py --open-editor 'D:\Photos\Working\example.dng'
 
 ## Source and licenses
 
-The personal server extends the upstream native MCP. The release preserves darktable's bundled license files. The accompanying engine source archive contains the pinned darktable source and its build submodules with a revision manifest. The personal source and build scripts are in this repository. Build setup and code remain independent of the AI provider. [Personal blend controls and rebuild guide](docs/personal.md) · [Pinned upstream source](https://github.com/darktable-org/darktable/tree/a670177b18360696af9c9cb05aeb350cd8df2011) · [License](LICENSE)
+The personal server extends the upstream native MCP. The release preserves darktable's bundled license files. The accompanying engine source archive contains the pinned darktable source and its build submodules with a revision manifest. The personal source and build scripts are in this repository. Build setup and code remain independent of the AI provider. [Personal blend controls and rebuild guide](docs/personal.md) Â· [Pinned upstream source](https://github.com/darktable-org/darktable/tree/a670177b18360696af9c9cb05aeb350cd8df2011) Â· [License](LICENSE)

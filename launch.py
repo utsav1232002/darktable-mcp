@@ -8,6 +8,8 @@ from pathlib import Path
 import subprocess
 import sys
 
+from mcp_lighting import run_mcp
+
 
 def reserve_catalog(host_dir):
     # darktable locks both library.db and data.db. Simultaneous chats each need a profile.
@@ -59,10 +61,14 @@ def main():
             "--tmpdir", scratch.as_posix(), *sidecar_args,
             "--conf", "plugins/imageio/format/tiff/bpp=16",
         ]
-        return subprocess.run(
-            args, cwd=executable.parent, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr,
-            startupinfo=startup, creationflags=subprocess.CREATE_NO_WINDOW,
-        ).returncode
+        process_options = {
+            "cwd": executable.parent,
+            "startupinfo": startup,
+            "creationflags": subprocess.CREATE_NO_WINDOW,
+        }
+        if photo:
+            return subprocess.run(args, **process_options).returncode
+        return run_mcp(args, **process_options)
     finally:
         os.close(fd)
 
